@@ -1,0 +1,12 @@
+@use '../mixin/flexCol' as *
+
+.error
+  @include flexCol(1rem)
+  margin-top: 3rem
+  text-transform: lowercase
+  align-items: center
+  &__title
+    font-size: 3rem
+  &__subtitle, & > a
+    font-size: 1.5rem
+    font-weight: normal

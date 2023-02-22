@@ -1,0 +1,19 @@
+@use '../mixin/softBorder' as *
+@use '../getColor' as *
+@use '../mixin/flexCol' as *
+
+.dropdown-default
+  @include softBorder()
+  position: absolute
+  background-color: getColor(crust)
+  padding: .8rem
+  & > ul
+    @include flexCol(.8rem)
+    min-width: max-content
+  &__item
+    list-style: none
+    & > button
+      width: 100%
+      text-transform: lowercase
+      text-align: left
+      padding: .5rem

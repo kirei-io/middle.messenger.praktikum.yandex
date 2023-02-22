@@ -1,0 +1,89 @@
+@use 'colors'
+@use 'mixin/contentBorder' as *
+@use 'mixin/softBorder' as *
+@use 'mixin/flexRow' as *
+@use 'getColor' as *
+
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400;1,500;1,700&display=swap')
+
+:root
+  @each $color, $value in colors.$colors
+    --color-#{$color}: #{$value}
+*
+  margin: 0
+  padding: 0
+  box-sizing: border-box
+  font-size: 20px
+  font-family: 'Comfortaa', 'Roboto', sans-serif
+  color: getColor(text)
+  @media screen and (max-width: 1000px)
+    font-size: 16px
+  @media screen and (max-width: 700px)
+    font-size: 12px
+
+body
+  min-height: 100vh
+  background-color: getColor(base)
+
+a
+  color: getColor(rosewater)
+
+.wrapper
+  @include flexRow()
+  height: 100%
+  justify-content: center
+  align-items: center
+  padding: 2rem
+  @media screen and (max-height: 700px)
+    height: auto
+    align-items: flex-start
+
+.card
+  @include contentBorder()
+  padding: 2rem
+  background-color: getColor(crust)
+
+.input
+  @include softBorder()
+  background-color: getColor(base)
+  font-family: 'Roboto', sans-serif
+  padding: 1rem
+  &::placeholder
+    font-family: 'Comfortaa', sans-serif
+    color: getColor(subtext0)
+  &-inner
+    padding: .5rem
+    background-color: getColor(base)
+    box-shadow: inset 2px 2px 0 0 getColor(surface2)
+    border-radius: 8px
+    border: none
+
+.button
+  &-default
+    @include softBorder()
+    background-color: getColor(surface0)
+    padding: 1rem
+    &:active
+      color: getColor(lavender)
+  &-outline
+    padding: .5rem
+    border-radius: 8px
+    border: none
+    background-color: getColor(surface0)
+    box-shadow: inset 2px 2px 1px 0 getColor(mantle), 2px 2px 0px 0 getColor(text)
+
+@mixin svgIcon($url)
+  -webkit-mask-image: url($url)
+  mask-image: url($url)
+  -webkit-mask-repeat: no-repeat
+  mask-repeat: no-repeat
+  -webkit-mask-size: 100% 100%
+  mask-size: 100% 100%
+
+.icon
+  display: inline-block
+  position: relative
+  width: 1.5rem
+  height: 1.5rem
+  top: 1px
+  left: 1px
