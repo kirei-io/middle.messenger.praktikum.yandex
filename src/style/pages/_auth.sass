@@ -1,0 +1,34 @@
+@use '../mixin/flexCol' as *
+
+.card-form
+  @include flexCol()
+  justify-content: space-between
+  min-width: 400px
+  min-height: 500px
+  user-select: none
+  text-transform: lowercase
+  &__title
+    padding-left: 1rem
+    font-size: 2rem
+    &::after
+      content: '.'
+  & > .link
+    padding-left: 1rem
+    font-weight: bold
+
+.form
+  margin: 4rem 0 2rem 0
+  @include flexCol(3rem)
+  &__button
+    padding-left: 1rem !important
+    text-align: left
+    text-transform: lowercase
+    &::after
+      content: '!'
+  &-signup
+    flex-direction: row
+    column-gap: 4rem
+    @media screen and (max-width: 700px)
+      flex-direction: column
+    &__col
+      @include flexCol(3rem)

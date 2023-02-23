@@ -1,0 +1,6 @@
+{
+  "data": "src/data/**/*.{json,js}",
+  "helpers": "src/helpers/**/*.js",
+  "layouts": "src/layouts/**/*.{hbs,html}",
+  "partials": "src/partials/**/*.{hbs,html}"
+}

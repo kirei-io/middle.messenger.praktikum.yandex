@@ -1,0 +1,53 @@
+{
+  "name": "middle.messenger.praktikum.yandex",
+  "version": "1.0.0",
+  "description": "messanger project",
+  "type": "commonjs",
+  "scripts": {
+    "prebuild": "rimraf ./dist",
+    "dev": "parcel",
+    "build": "npm run prebuild && parcel build --no-cache --no-source-maps",
+    "start": "npm run build && node ./server.js"
+  },
+  "targets": {
+    "default": {
+      "context": "browser",
+      "source": [
+        "./src/index.hbs"
+      ],
+      "distDir": "./dist",
+      "outputFormat": "global",
+      "publicUrl": "/",
+      "engines": {
+        "browsers": ">= 50%"
+      }
+    }
+  },
+  "engines": {
+    "node": ">=14"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kirei-io/middle.messenger.praktikum.yandex.git"
+  },
+  "keywords": [
+    "messanger",
+    "yandex",
+    "praktikum"
+  ],
+  "author": "kirei-io <kirei.unives3@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kirei-io/middle.messenger.praktikum.yandex/issues"
+  },
+  "homepage": "https://github.com/kirei-io/middle.messenger.praktikum.yandex#readme",
+  "devDependencies": {
+    "@jmilanes/parcel-transformer-handlebars-revamped": "1.0.0",
+    "@parcel/transformer-sass": "2.8.3",
+    "parcel": "2.8.3",
+    "rimraf": "4.1.2"
+  },
+  "dependencies": {
+    "express": "4.18.2"
+  }
+}

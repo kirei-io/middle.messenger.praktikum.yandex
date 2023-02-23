@@ -1,0 +1,22 @@
+@use '../mixin/softBorder' as *
+@use '../getColor' as *
+
+.message
+  @include softBorder()
+  padding: 1rem
+  max-width: 45%
+  width: max-content
+  &__footer
+    display: flex
+    justify-content: flex-end
+    margin-top: 0.5rem
+  &__date
+    font-size: 0.8rem
+    color: getColor(overlay1)
+  &__from
+    border-bottom-right-radius: 0
+    align-self: flex-end
+    background-color: getColor(mantle)
+  &__to
+    border-bottom-left-radius: 0
+    background-color: getColor(crust)

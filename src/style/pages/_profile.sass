@@ -1,0 +1,71 @@
+@use '../mixin/softBorder' as *
+@use '../mixin/flexCol' as *
+@use '../mixin/flexRow' as *
+@use '../getColor' as *
+.wrapper-profile
+  column-gap: 2rem
+
+.profile
+  &-left
+    @include flexCol(2rem)
+    align-items: flex-end
+  &__row
+    @include flexRow(1rem)
+    width: 30rem
+    padding: 1rem 0
+    justify-content: space-between
+    border-bottom: 2px solid getColor(surface2)
+  &__label
+    min-width: 8rem
+    text-transform: lowercase
+  &-avatar
+    @include softBorder()
+    width: 7rem
+    height: 7rem
+    border-radius: 50%
+    background-color: getColor(surface2)
+  &__navigation
+    @include flexCol(1rem)
+
+.card-avatar
+  @include flexRow()
+  align-items: center
+  justify-content: center
+
+.profile-edit
+  &__row
+    align-items: center
+    padding: 1rem 0
+  &__button
+    margin-top: 1rem
+    text-transform: lowercase
+
+.change-avatar
+  @include flexCol(1rem)
+  text-transform: lowercase
+  &__input
+    display: none
+  &__label
+    color: getColor(rosewater)
+  &__button
+    text-align: left
+    text-transform: lowercase
+    width: max-content
+  &__info
+    color: getColor(maroon)
+
+@media screen and (max-width: 880px)
+  .wrapper-profile
+    flex-direction: column
+    row-gap: 2rem
+    align-items: center
+  .profile-left
+    flex-direction: row
+    column-gap: 2rem
+
+@media screen and (max-width: 700px)
+  .profile
+    &__row
+      width: auto
+    &-left
+      flex-direction: column
