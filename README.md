@@ -54,7 +54,7 @@ npm run start
 
 * [Messenger layout in Figma](https://www.figma.com/file/6KYG6oVWJe0VvCROyIUhjy/chat-app?node-id=17%3A84&t=oi1Iqbcf4oqN3JGq-1)
 
-### See also:
+### See also
 
 * [Catppuccin Color Palette](https://github.com/catppuccin/catppuccin)
 * [Praktikum Yandex example chat layout in Figma](https://www.figma.com/file/24EUnEHGEDNLdOcxg7ULwV/Chat?node-id=0%3A1)
