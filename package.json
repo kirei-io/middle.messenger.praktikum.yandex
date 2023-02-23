@@ -2,7 +2,7 @@
   "name": "middle.messenger.praktikum.yandex",
   "version": "1.0.0",
   "description": "messanger project",
-  "type": "module",
+  "type": "commonjs",
   "scripts": {
     "prebuild": "rimraf ./dist",
     "dev": "parcel",
