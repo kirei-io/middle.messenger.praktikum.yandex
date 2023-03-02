@@ -1,0 +1,15 @@
+{
+  "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended"],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],
+  "root": true,
+  "env": {
+    "browser": true
+  },
+  "rules": {
+    "no-unused-vars": 2,
+    "max-len": [1, 80],
+    "max-params": [2, 3],
+    "quotes": ["error", "double"]
+  }
+}
