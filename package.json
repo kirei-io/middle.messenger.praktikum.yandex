@@ -15,7 +15,7 @@
     "default": {
       "context": "browser",
       "source": [
-        "./src/index.hbs"
+        "./src/index.html"
       ],
       "distDir": "./dist",
       "outputFormat": "global",
@@ -44,7 +44,7 @@
   },
   "homepage": "https://github.com/kirei-io/middle.messenger.praktikum.yandex#readme",
   "devDependencies": {
-    "@jmilanes/parcel-transformer-handlebars-revamped": "1.0.0",
+    "@anikin/parcel-transformer-handlebars-precompile": "1.0.1",
     "@parcel/transformer-sass": "2.8.3",
     "@typescript-eslint/eslint-plugin": "5.54.0",
     "@typescript-eslint/parser": "5.54.0",
