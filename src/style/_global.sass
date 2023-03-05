@@ -2,6 +2,7 @@
 @use 'mixin/contentBorder' as *
 @use 'mixin/softBorder' as *
 @use 'mixin/flexRow' as *
+@use 'mixin/flexCol' as *
 @use 'getColor' as *
 
 @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400;1,500;1,700&display=swap')
@@ -28,9 +29,12 @@ body
 a
   color: getColor(rosewater)
 
+#app
+  min-height: 100vh
+
 .wrapper
   @include flexRow()
-  height: 100%
+  min-height: 100vh
   justify-content: center
   align-items: center
   padding: 2rem
@@ -44,10 +48,15 @@ a
   background-color: getColor(crust)
 
 .input
-  @include softBorder()
-  background-color: getColor(base)
-  font-family: 'Roboto', sans-serif
-  padding: 1rem
+  width: 100%
+  display: flex
+  @include flexCol(0.5rem)
+  &__form
+    @include softBorder()
+    background-color: getColor(base)
+    font-family: 'Roboto', sans-serif
+    padding: 1rem
+
   &::placeholder
     font-family: 'Comfortaa', sans-serif
     color: getColor(subtext0)
@@ -57,6 +66,11 @@ a
     box-shadow: inset 2px 2px 0 0 getColor(surface2)
     border-radius: 8px
     border: none
+  &__validator-message
+    color: getColor(red)
+    padding-left: 1rem
+    font-size: 0.6rem
+    max-width: 15rem
 
 .button
   &-default
@@ -70,7 +84,7 @@ a
     border-radius: 8px
     border: none
     background-color: getColor(surface0)
-    box-shadow: inset 2px 2px 1px 0 getColor(mantle), 2px 2px 0px 0 getColor(text)
+    box-shadow: inset 2px 2px 1px 0 getColor(mantle), 2px 2px 0 0 getColor(text)
 
 @mixin svgIcon($url)
   -webkit-mask-image: url($url)

@@ -8,7 +8,7 @@ $border: 2px solid getColor(surface0)
 .wrapper-chat
   @include flexRow()
   padding: 0
-  height: 100%
+  min-height: 100vh
 .chats
   width: 30%
   border-right: $border
@@ -39,7 +39,7 @@ $border: 2px solid getColor(surface0)
     background-color: getColor(surface2)
     border-radius: 50%
     border: 2px solid
-    box-shadow: 2px 2px 0px 0px
+    box-shadow: 2px 2px 0 0
   &__left
     @include flexRow(1rem)
     align-items: center
@@ -64,7 +64,7 @@ $border: 2px solid getColor(surface0)
     background-color: getColor(blue)
     color: getColor(base)
     border: 1px solid getColor(text)
-    box-shadow: 1px 1px 0px 0px getColor(text)
+    box-shadow: 1px 1px 0 0 getColor(text)
 
 .chat
   @include flexCol()
