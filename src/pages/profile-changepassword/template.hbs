@@ -12,43 +12,11 @@
     {{!-- avatar --}}
 
   </div>
-  <form class="card profile">
-    <div class="profile__row profile-edit__row">
-      <label
-        for="oldPassword"
-        class="profile__label">Old password:</label>
-      <input
-        name="oldPassword"
-        placeholder="old password"
-        type="password"
-        class="input-inner">
-    </div>
-    {{!-- oldPassword --}}
-    <div class="profile__row profile-edit__row">
-      <label
-        for="newPassword"
-        class="profile__label">New password:</label>
-      <input
-        name="newPassword"
-        placeholder="new password"
-        type="password"
-        class="input-inner">
-    </div>
-    {{!-- newPassword --}}
-    <div class="profile__row profile-edit__row">
-      <label
-        for="newPassword_repeat"
-        class="profile__label">New (repeat):</label>
-      <input
-        name="newPassword_repeat"
-        placeholder="new password (repeat)"
-        type="password"
-        class="input-inner">
-    </div>
-    {{!-- newPassword (repeat) --}}
-
-    <button
-      type="submit"
-      class="button-outline profile-edit__button">Save</button>
-  </form>
+  {{{form}}}
+  {{!-- <form class="card profile">
+    {{{inputOldPassword}}}
+    {{{inputNewPassword}}}
+    {{{inputNewPasswordRepeat}}}
+    {{{buttonSubmit}}}
+  </form> --}}
 </main>

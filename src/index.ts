@@ -1,17 +1,7 @@
-import { chatPage } from "./pages/chat";
-import { loginPage } from "./pages/login";
-import { notfoundPage } from "./pages/notfound";
-import { profilePage } from "./pages/profile";
-import { profileChangeAvatarPage } from "./pages/profile-changeavatar";
-import { profileChangePasswordPage } from "./pages/profile-changepassword";
-import { profileEditPage } from "./pages/profile-edit";
-import { serverErrorPage } from "./pages/servererror";
-import { signupPage } from "./pages/signup";
-import { dropDownDefault } from "./partials/dropdown-default";
-import { message } from "./partials/message";
-import { modalDefault } from "./partials/modal-default";
+import { renderDOM } from "./core/renderDOM";
+import { debugPagesNav } from "./partials/debug-pages-nav";
 
-const routes = {
+const path = {
   chat: "#chat",
   login: "#login",
   notfound: "#notfound",
@@ -23,64 +13,53 @@ const routes = {
   signup: "#signup",
 };
 
-const root = document.querySelector("#app") as HTMLElement;
+const debugNav = () => {
+  const debugNav = document.querySelector("#debug-nav") as HTMLElement;
+  debugNav.innerHTML = debugPagesNav({});
+};
 
 const router = () => {
-  const hash = window.location.hash || "#";
-  console.log(hash);
+  const hash = window.location.hash || path.login;
+
   switch (hash) {
-    case routes.chat:
-      root.innerHTML = chatPage(
-        {},
-        {
-          partials: {
-            message: message,
-            "dropdown-default": dropDownDefault,
-          },
-        }
-      );
+    case path.chat:
+      renderDOM("chat");
+      break;
+    case path.login:
+      renderDOM("login");
       break;
 
-    case routes.login:
-      root.innerHTML = loginPage({});
+    case path.notfound:
+      renderDOM("notfound");
       break;
 
-    case routes.notfound:
-      root.innerHTML = notfoundPage({});
+    case path.profile:
+      renderDOM("profile");
       break;
 
-    case routes.profile:
-      root.innerHTML = profilePage({});
+    case path.profileChangePassword:
+      renderDOM("profileChangePassword");
       break;
 
-    case routes.profileChangeAvatar:
-      root.innerHTML = profileChangeAvatarPage(
-        {},
-        { partials: { "modal-default": modalDefault } }
-      );
+    case path.profileEdit:
+      renderDOM("profileEdit");
       break;
 
-    case routes.profileChangePassword:
-      root.innerHTML = profileChangePasswordPage({});
+    case path.serverError:
+      renderDOM("servererror");
       break;
 
-    case routes.profileEdit:
-      root.innerHTML = profileEditPage({});
-      break;
-
-    case routes.serverError:
-      root.innerHTML = serverErrorPage({});
-      break;
-
-    case routes.signup:
-      root.innerHTML = signupPage({});
+    case path.signup:
+      renderDOM("signup");
       break;
 
     default:
-      root.innerHTML = notfoundPage({});
+      renderDOM("notfound");
       break;
   }
 };
+
+debugNav();
 
 window.addEventListener("load", router);
 window.addEventListener("hashchange", router);
