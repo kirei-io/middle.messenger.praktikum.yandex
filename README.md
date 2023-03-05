@@ -12,7 +12,12 @@
   * creating ui/ux layout in figma
   * initializing project (add parcel, handlebars, sass, express)
   * markup and styling of the pages
-* **sprint_2** TBD
+* **sprint_2** decomposition and added a component approach
+  * added typescript
+  * added linters
+  * added components
+  * form validation
+* **sprint_3** TBD
 
 ## 💿 Install
 
