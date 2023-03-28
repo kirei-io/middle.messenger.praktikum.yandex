@@ -17,17 +17,20 @@ type BlockEventsType = {
   [BLOCK_EVENTS.RENDER]: BlockEventHandler;
 };
 
-type Props = Record<string, unknown>;
+type Props = {
+  [key: string]: unknown;
+  events?: Record<string, (e: Event) => void>;
+};
 type Child = Record<string, Block | Block[]>;
 
-export class Block {
+export abstract class Block<P extends Props = Props> {
   private element: HTMLElement | null = null;
   protected id = window.crypto.randomUUID();
   public readonly props: Props;
   public readonly children: Child;
   private eventBus: () => EventBus<BlockEventsType>;
 
-  constructor(propsWithChildren: Props | Child = {}) {
+  constructor(propsWithChildren: P | Child = {}) {
     const eventBus = new EventBus<BlockEventsType>();
 
     const { props, children } = this.getChildrenAndProps(propsWithChildren);
@@ -133,11 +136,9 @@ export class Block {
   }
 
   private forEachEvents(
-    callback: (eventName: string, event: () => void) => void
+    callback: (eventName: string, event: (e: Event) => void) => void
   ) {
-    const { events = {} } = this.props as {
-      events: Record<string, () => void>;
-    };
+    const { events = {} } = this.props;
 
     Object.keys(events).forEach((eventName) => {
       callback(eventName, events[eventName]);
@@ -210,7 +211,7 @@ export class Block {
     this.addEvents();
   }
 
-  protected render() {
+  protected render(): DocumentFragment {
     return new DocumentFragment();
   }
 
