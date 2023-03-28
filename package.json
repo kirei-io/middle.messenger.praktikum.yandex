@@ -7,13 +7,15 @@
     "prebuild": "rimraf ./dist",
     "dev": "parcel",
     "build": "npm run prebuild && parcel build --no-cache --no-source-maps",
-    "start": "npm run build && node ./server.js"
+    "start": "npm run build && node ./server.js",
+    "lint:eslint": "eslint . --ext .ts",
+    "lint:stylelint": "stylelint \"**/*.sass\""
   },
   "targets": {
     "default": {
       "context": "browser",
       "source": [
-        "./src/index.hbs"
+        "./src/index.html"
       ],
       "distDir": "./dist",
       "outputFormat": "global",
@@ -42,10 +44,17 @@
   },
   "homepage": "https://github.com/kirei-io/middle.messenger.praktikum.yandex#readme",
   "devDependencies": {
-    "@jmilanes/parcel-transformer-handlebars-revamped": "1.0.0",
+    "@anikin/parcel-transformer-handlebars-precompile": "1.0.1",
     "@parcel/transformer-sass": "2.8.3",
+    "@typescript-eslint/eslint-plugin": "5.54.0",
+    "@typescript-eslint/parser": "5.54.0",
+    "eslint": "8.35.0",
     "parcel": "2.8.3",
-    "rimraf": "4.1.2"
+    "rimraf": "4.1.2",
+    "stylelint": "15.2.0",
+    "stylelint-config-standard-scss": "7.0.1",
+    "stylelint-scss": "4.4.0",
+    "typescript": "4.9.5"
   },
   "dependencies": {
     "express": "4.18.2"
