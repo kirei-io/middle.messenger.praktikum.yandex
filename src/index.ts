@@ -1,65 +1,42 @@
-import { renderDOM } from "./core/renderDOM";
+import { Router } from "./core/Router";
+import { ChatPage } from "./pages/chat";
+import { LoginPage } from "./pages/login";
+import { NotFoundPage } from "./pages/notfound";
+import { ProfilePage } from "./pages/profile";
+import { ProfileChangePasswordPage } from "./pages/profile-changepassword";
+import { ProfileEditPage } from "./pages/profile-edit";
+import { ServerErrorPage } from "./pages/servererror";
+import { SignupPage } from "./pages/signup";
 import { debugPagesNav } from "./partials/debug-pages-nav";
 
-const path = {
-  chat: "#chat",
-  login: "#login",
-  notfound: "#notfound",
-  profile: "#profile",
-  profileChangePassword: "#profile-change-password",
-  profileChangeAvatar: "#profile-change-avatar",
-  profileEdit: "#profile-edit",
-  serverError: "#servererror",
-  signup: "#signup",
-};
+enum ROUTE_PATH {
+  LOGIN = "/login",
+  CHAT = "/chat",
+  NOT_FOUND = "/notfound",
+  PROFILE = "/profile",
+  PROFILE_CHANGE_PASSWORD = "/profile/change-password",
+  PROFILE_EDIT = "/profile/edit",
+  SERVER_ERROR = "/servererror",
+  SIGNUP = "/signup",
+}
 
 const debugNav = () => {
   const debugNav = document.querySelector("#debug-nav") as HTMLElement;
   debugNav.innerHTML = debugPagesNav({});
 };
 
-const router = () => {
-  const hash = window.location.hash || path.login;
-
-  switch (hash) {
-    case path.chat:
-      renderDOM("chat");
-      break;
-    case path.login:
-      renderDOM("login");
-      break;
-
-    case path.notfound:
-      renderDOM("notfound");
-      break;
-
-    case path.profile:
-      renderDOM("profile");
-      break;
-
-    case path.profileChangePassword:
-      renderDOM("profileChangePassword");
-      break;
-
-    case path.profileEdit:
-      renderDOM("profileEdit");
-      break;
-
-    case path.serverError:
-      renderDOM("servererror");
-      break;
-
-    case path.signup:
-      renderDOM("signup");
-      break;
-
-    default:
-      renderDOM("notfound");
-      break;
-  }
-};
-
 debugNav();
 
-window.addEventListener("load", router);
-window.addEventListener("hashchange", router);
+const router = Router.instance("#app");
+
+router
+  .use(ROUTE_PATH.LOGIN, LoginPage)
+  .use(ROUTE_PATH.SIGNUP, SignupPage)
+  .use(ROUTE_PATH.CHAT, ChatPage)
+  .use(ROUTE_PATH.PROFILE, ProfilePage)
+  .use(ROUTE_PATH.PROFILE_EDIT, ProfileEditPage)
+  .use(ROUTE_PATH.PROFILE_CHANGE_PASSWORD, ProfileChangePasswordPage)
+  .use(ROUTE_PATH.NOT_FOUND, NotFoundPage)
+  .use(ROUTE_PATH.SERVER_ERROR, ServerErrorPage);
+
+window.addEventListener("DOMContentLoaded", () => router.start());

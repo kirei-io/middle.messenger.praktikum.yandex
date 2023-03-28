@@ -257,7 +257,7 @@ export abstract class Block<P extends Props = Props> {
    * Set style property "display" as block
    */
   public show() {
-    this.htmlElement.style.display = "block";
+    this.htmlElement.style.display = "";
   }
 
   /**
