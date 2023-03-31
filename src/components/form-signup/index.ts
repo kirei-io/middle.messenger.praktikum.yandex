@@ -1,6 +1,6 @@
 import { Block } from "../../core/Block";
-import { formSubmitHandler } from "../../services/FormSubmitHandler";
 import { ButtonDefault } from "../button-default";
+import { FormDefault } from "../form-default";
 import { InputBlock } from "../input-block";
 import template from "./template.hbs";
 
@@ -51,16 +51,9 @@ const signupRightInputs = [
     className: "form__input",
   },
 ];
-
-export class FormSignup extends Block {
-  protected init(): void {
-    this.setProps({
-      events: {
-        submit: (e: Event) => {
-          formSubmitHandler(e, this.getValues(), this.inputs);
-        },
-      },
-    });
+export class FormSignup extends FormDefault {
+  protected init() {
+    super.init();
     this.children.elementsLeft = signupLeftInputs.map(
       (props) => new InputBlock({ ...props })
     );
@@ -75,10 +68,16 @@ export class FormSignup extends Block {
     this.children.buttonSubmit = new ButtonDefault({});
   }
 
-  protected render(): DocumentFragment {
+  /**
+   * @Override
+   */
+  protected render() {
     return this.compile(template, this.props);
   }
 
+  /**
+   * @Override
+   */
   public getValues() {
     const inputs = this.inputs;
     const values: Record<string, string> = {};
@@ -89,7 +88,10 @@ export class FormSignup extends Block {
     return values;
   }
 
-  private get inputs() {
+  /**
+   * @Override
+   */
+  protected get inputs() {
     const elementsLeft = this.children.elementsLeft as InputBlock[];
     const elementsRight = (this.children.elementsRight as Block[]).filter(
       (component) => component instanceof InputBlock

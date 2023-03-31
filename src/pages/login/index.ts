@@ -1,4 +1,4 @@
-import { FormLogin } from "../../components/form-login";
+import { FormLogin } from "../../components/form-login/index";
 import { Block } from "../../core/Block";
 
 import template from "./template.hbs";
