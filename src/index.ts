@@ -27,7 +27,7 @@ const debugNav = () => {
 
 debugNav();
 
-const router = Router.instance("#app");
+const router = Router.create("#app");
 
 router
   .use(ROUTE_PATH.LOGIN, LoginPage)

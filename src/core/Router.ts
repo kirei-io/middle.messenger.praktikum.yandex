@@ -24,11 +24,21 @@ export class Router {
   /**
    * Get instance of the `Router` class or create a new instance and return it.
    */
-  public static instance(rootQuery: string) {
+  public static create(rootQuery: string) {
     if (!Router.routerInstance) {
       Router.routerInstance = new Router(rootQuery);
     }
 
+    return Router.routerInstance;
+  }
+
+  /**
+   * Get `Router` instance
+   */
+  public static instance() {
+    if (!Router.routerInstance) {
+      throw new Error("router didnt create");
+    }
     return Router.routerInstance;
   }
 
