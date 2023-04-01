@@ -1,8 +1,10 @@
+import { merge } from "./merge";
+
 function set(
-  object: Indexed | unknown,
+  object: Record<string, unknown> | unknown,
   path: string,
   value: unknown
-): Indexed | unknown {
+): Record<string, unknown> | unknown {
   if (typeof object !== "object" || object === null) {
     return object;
   }
@@ -11,13 +13,13 @@ function set(
     throw new Error("path must be string");
   }
 
-  const result = path.split(".").reduceRight<Indexed>(
+  const result = path.split(".").reduceRight<Record<string, unknown>>(
     (acc, key) => ({
       [key]: acc,
     }),
     value as any
   );
-  return merge(object as Indexed, result);
+  return merge(object as Record<string, unknown>, result);
 }
 
 export default set;
