@@ -17,7 +17,7 @@ type BlockEventsType = {
   [BLOCK_EVENTS.RENDER]: BlockEventHandler;
 };
 
-type Props = {
+export type Props = {
   [key: string]: unknown;
   events?: Record<string, (e: Event) => void>;
 };
