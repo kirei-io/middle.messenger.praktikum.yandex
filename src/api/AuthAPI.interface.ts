@@ -31,6 +31,6 @@ export type UserResponse = {
   avatar: string;
 };
 
-export type AuthErrorResponse = {
+export type ErrorResponse = {
   reason: string;
 };

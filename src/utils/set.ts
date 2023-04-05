@@ -1,10 +1,33 @@
-import { merge } from "./merge";
+export type Indexed<T = any> = {
+  [key in string]: T;
+};
 
-function set(
-  object: Record<string, unknown> | unknown,
+export function merge(lhs: Indexed, rhs: Indexed): Indexed {
+  for (const p in rhs) {
+    // eslint-disable-next-line no-prototype-builtins
+    if (!rhs.hasOwnProperty(p)) {
+      continue;
+    }
+
+    try {
+      if (rhs[p].constructor === Object) {
+        rhs[p] = merge(lhs[p] as Indexed, rhs[p] as Indexed);
+      } else {
+        lhs[p] = rhs[p];
+      }
+    } catch (e) {
+      lhs[p] = rhs[p];
+    }
+  }
+
+  return lhs;
+}
+
+export function set(
+  object: Indexed | unknown,
   path: string,
   value: unknown
-): Record<string, unknown> | unknown {
+): Indexed | unknown {
   if (typeof object !== "object" || object === null) {
     return object;
   }
@@ -13,13 +36,12 @@ function set(
     throw new Error("path must be string");
   }
 
-  const result = path.split(".").reduceRight<Record<string, unknown>>(
+  const result = path.split(".").reduceRight<Indexed>(
     (acc, key) => ({
       [key]: acc,
     }),
-    value as any
+    value as Indexed
   );
-  return merge(object as Record<string, unknown>, result);
-}
 
-export default set;
+  return merge(object as Indexed, result);
+}

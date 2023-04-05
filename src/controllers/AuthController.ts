@@ -1,17 +1,17 @@
-import AuthAPI from "../api/AuthAPI";
+import { AuthAPI } from "../api/AuthAPI";
 import { SignInRequest, SignUpRequest } from "../api/AuthAPI.interface";
 import { Router } from "../core/Router";
 import { Store } from "../core/Store";
+import { MessagesController } from "./MessagesController";
 
-class AuthController {
+class Auth {
   private readonly api = AuthAPI;
 
   async signin(data: SignInRequest) {
     try {
       await this.api.signin(data);
-
       Router.instance().go("/profile");
-    } catch (error: any) {
+    } catch (error) {
       console.log(error);
     }
   }
@@ -23,7 +23,7 @@ class AuthController {
       await this.fetchUser();
 
       Router.instance().go("/profile");
-    } catch (error: any) {
+    } catch (error) {
       console.log(error);
     }
   }
@@ -31,22 +31,22 @@ class AuthController {
   async fetchUser() {
     try {
       const user = await this.api.read();
-
-      Store.instance().set("user", user);
-    } catch (error: any) {
-      console.log(error);
+      Store.instance().set("user.data", user);
+    } catch (error) {
+      throw new Error((error as Error).message);
     }
   }
 
   async logout() {
     try {
+      MessagesController.closeAll();
       await this.api.logout();
 
       Router.instance().go("/");
-    } catch (error: any) {
+    } catch (error) {
       console.log(error);
     }
   }
 }
 
-export default new AuthController();
+export const AuthController = new Auth();

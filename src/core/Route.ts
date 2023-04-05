@@ -3,6 +3,8 @@ import { Block } from "./Block";
 export class Route {
   private readonly blockClass: new () => Block;
   private block: Block | null = null;
+  private pathname: string;
+  private readonly props: { rootQuery: string };
 
   /**
    * Create a new route
@@ -10,12 +12,14 @@ export class Route {
    * @param block - `Сlass` extending abstract class `Block`
    * @param props - route options
    */
-  constructor(
-    private pathname: string,
-    block: new () => Block,
-    private readonly props: { rootQuery: string }
-  ) {
-    this.blockClass = block;
+  constructor(options: {
+    pathname: string;
+    props: { rootQuery: string };
+    block: new () => Block;
+  }) {
+    this.blockClass = options.block;
+    this.pathname = options.pathname;
+    this.props = options.props;
   }
 
   public navigate(pathname: string) {
@@ -27,7 +31,7 @@ export class Route {
 
   public leave() {
     if (this.block) {
-      this.block.hide();
+      this.block = null;
     }
   }
 
@@ -51,7 +55,5 @@ export class Route {
       root.appendChild(this.block.htmlElement);
       this.block.dispatchComponentDidMount();
     }
-
-    this.block.show();
   }
 }

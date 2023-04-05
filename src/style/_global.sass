@@ -47,6 +47,10 @@ a
   padding: 2rem
   background-color: getColor(crust)
 
+.null
+  font-style: italic
+  color: getColor(overlay1)
+
 .input
   width: 100%
   display: flex
@@ -71,6 +75,12 @@ a
     padding-left: 1rem
     font-size: 0.6rem
     max-width: 15rem
+
+.form__validator
+  display: inline-block
+  &:only-child
+    display: inline
+    font-size: 1rem
 
 .button
   &-default

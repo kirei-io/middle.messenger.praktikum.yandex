@@ -64,9 +64,11 @@ export class Router {
   /**
    * Register a new route
    */
-  public use(pathname: string, block: new () => Block) {
-    const route = new Route(pathname, block, {
-      rootQuery: this.rootQuery,
+  public use(pathname: string, block: new (props?: any) => Block) {
+    const route = new Route({
+      block,
+      pathname,
+      props: { rootQuery: this.rootQuery },
     });
     this.routes.push(route);
     return this;

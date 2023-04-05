@@ -1,3 +1,4 @@
+import { AuthController } from "../../controllers/AuthController";
 import { ButtonDefault } from "../button-default";
 import { FormDefault } from "../form-default";
 import { InputBlock } from "../input-block";
@@ -18,8 +19,11 @@ const loginInputs = [
 ];
 
 export class FormLogin extends FormDefault {
-  constructor() {
-    super();
+  protected async submitForm(values: Record<string, string>) {
+    await AuthController.signin({
+      login: values.login,
+      password: values.password,
+    });
   }
   protected init(): void {
     super.init();

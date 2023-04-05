@@ -40,7 +40,8 @@ export class EventBus<
     ...args: Parameters<Events[K]>
   ): void {
     if (!this.listeners[event]) {
-      throw new Error(`Event not found: ${String(event)}`);
+      // throw new Error(`Event not found: ${String(event)}`);
+      return;
     }
 
     this.listeners[event]?.forEach((listener) => {

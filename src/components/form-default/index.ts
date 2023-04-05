@@ -1,19 +1,31 @@
 import { Block } from "../../core/Block";
-import { formSubmitHandler } from "../../services/FormSubmitHandler";
+import { isValid } from "../../core/validator";
 import { InputBlock } from "../input-block";
 import template from "./template.hbs";
-
 export abstract class FormDefault extends Block {
   protected init(): void {
     this.setProps({
       events: {
         submit: (e: Event) => {
-          formSubmitHandler(e, this.getValues(), this.inputs);
+          e.preventDefault();
+          const values = this.getValues();
+          const notValidInputs = this.inputs.filter((input) => {
+            const name = input.props.name as string;
+            const valid = isValid(name, values[name]);
+            if (!valid) {
+              input.validator.show();
+              return input;
+            }
+          });
+          if (notValidInputs.length < 1) {
+            this.submitForm(values);
+          }
         },
       },
     });
   }
 
+  protected abstract submitForm(values: Record<string, string>): void;
   protected render(): DocumentFragment {
     return this.compile(template, this.props);
   }

@@ -67,7 +67,7 @@ export class HTTPTransport {
       xhr.onerror = () => reject({ reason: "network error" });
       xhr.ontimeout = () => reject({ reason: "timeout" });
 
-      xhr.setRequestHeader("Content-Type", "application/json");
+      // xhr.setRequestHeader("Content-Type", "application/json");
 
       xhr.withCredentials = true;
       xhr.responseType = "json";
@@ -75,7 +75,12 @@ export class HTTPTransport {
       if (method === METHOD.GET || !data) {
         xhr.send();
       } else {
-        xhr.send(JSON.stringify(data));
+        if (data instanceof FormData) {
+          xhr.send(data);
+        } else {
+          xhr.setRequestHeader("Content-Type", "application/json");
+          xhr.send(JSON.stringify(data));
+        }
       }
     });
   }

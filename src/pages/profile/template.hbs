@@ -1,57 +1,89 @@
 <main class="wrapper wrapper-profile">
   <div class="profile-left">
     <div class="card">
-      <a
-        href="/"
-        class="link">back</a>
+      {{{back}}}
     </div>
-    {{!-- back --}}
+    {{! back }}
     <div class="card card-avatar">
-      <div class="profile-avatar"></div>
+      {{{avatar}}}
     </div>
-    {{!-- avatar --}}
+    {{! avatar }}
     <div class="card profile__navigation">
-      <a
-        href="/"
-        class="link">Edit profile</a>
-      <a
-        href="/"
-        class="link">Change password</a>
-      <a
-        href="/"
-        class="link">Signout</a>
+      {{{editProfile}}}
+      {{{changePassword}}}
+      {{{signout}}}
     </div>
   </div>
   <div class="card profile">
     <div class="profile__row">
       <div class="profile__label">Email:</div>
-      <div class="profile__value">user@mail.com</div>
+      <div class="profile__value">
+        {{#if user.data.email}}
+          {{user.data.email}}
+        {{else}}
+          <span>null</span>
+        {{/if}}
+      </div>
     </div>
-    {{!-- email --}}
+    {{! email }}
     <div class="profile__row">
       <div class="profile__label">Login:</div>
-      <div class="profile__value">userName</div>
+      <div class="profile__value">
+        {{#if user.data.login}}
+          {{user.data.login}}
+        {{else}}
+          <span class="null">null</span>
+        {{/if}}
+      </div>
     </div>
-    {{!-- login --}}
+    {{! login }}
+
     <div class="profile__row">
       <div class="profile__label">First name:</div>
-      <div class="profile__value">User</div>
+      <div class="profile__value">
+        {{#if user.data.first_name}}
+          {{user.data.first_name}}
+        {{else}}
+          <span class="null">null</span>
+        {{/if}}
+      </div>
     </div>
-    {{!-- firstname --}}
+    {{! firstname }}
+
     <div class="profile__row">
       <div class="profile__label">Second name:</div>
-      <div class="profile__value">User</div>
+      <div class="profile__value">
+        {{#if user.data.second_name}}
+          {{user.data.second_name}}
+        {{else}}
+          <span class="null">null</span>
+        {{/if}}
+      </div>
     </div>
-    {{!-- secondname --}}
+    {{! secondname }}
+
     <div class="profile__row">
       <div class="profile__label">Display name:</div>
-      <div class="profile__value">User</div>
+      <div class="profile__value">
+        {{#if user.data.display_name}}
+          {{user.data.display_name}}
+        {{else}}
+          <span class="null">null</span>
+        {{/if}}
+      </div>
     </div>
-    {{!-- displayname --}}
+
+    {{! displayname }}
     <div class="profile__row">
       <div class="profile__label">Phone:</div>
-      <div class="profile__value">+7 (800) 555-35-35</div>
+      <div class="profile__value">
+        {{#if user.data.phone}}
+          {{user.data.phone}}
+        {{else}}
+          <span class="null">null</span>
+        {{/if}}
+      </div>
     </div>
-    {{!-- phone --}}
+    {{! phone }}
   </div>
 </main>

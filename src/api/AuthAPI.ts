@@ -13,7 +13,7 @@ const AuthAPIHTTPinstanceConfig: HTTPTransportConfig = {
 };
 const AuthAPIHTTPinstance = new HTTPTransport(AuthAPIHTTPinstanceConfig);
 
-class AuthAPI extends BaseAPI {
+class Auth extends BaseAPI {
   signin = (data: SignInRequest): Promise<SignInResponse> =>
     this.apiInstance.post("/signin", { data });
 
@@ -25,4 +25,4 @@ class AuthAPI extends BaseAPI {
   logout = (): Promise<void> => this.apiInstance.post("/logout");
 }
 
-export default new AuthAPI(AuthAPIHTTPinstance);
+export const AuthAPI = new Auth(AuthAPIHTTPinstance);

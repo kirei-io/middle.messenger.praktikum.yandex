@@ -1,4 +1,7 @@
+import { ROUTE_PATH } from "../..";
+import { AuthController } from "../../controllers/AuthController";
 import { Block } from "../../core/Block";
+import { Router } from "../../core/Router";
 import { ButtonDefault } from "../button-default";
 import { FormDefault } from "../form-default";
 import { InputBlock } from "../input-block";
@@ -65,7 +68,18 @@ export class FormSignup extends FormDefault {
         label: "Create account",
       }),
     ];
-    this.children.buttonSubmit = new ButtonDefault({});
+  }
+
+  protected submitForm(values: Record<string, string>): void {
+    AuthController.signup({
+      email: values.email,
+      login: values.login,
+      password: values.password,
+      first_name: values.first_name,
+      second_name: values.second_name,
+      phone: values.phone,
+    });
+    Router.instance().go(ROUTE_PATH.PROFILE);
   }
 
   /**

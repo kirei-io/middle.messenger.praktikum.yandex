@@ -1,10 +1,32 @@
-import { UserResponse } from "../api/AuthAPI.interface";
-import set from "../utils/set";
+import { ErrorResponse, UserResponse } from "../api/AuthAPI.interface";
+import { ChatResponse } from "../api/ChatsAPI.interface";
+import { Message } from "../controllers/MessagesController";
+
+import { set } from "../utils/set";
 import { EventBus } from "./EventBus";
 
-interface State {
-  user?: UserResponse;
-}
+export type State = {
+  user?: {
+    data: UserResponse;
+    error: ErrorResponse;
+    isLoading?: boolean;
+  };
+  chats?: {
+    data: ChatResponse[];
+    error: ErrorResponse;
+    isLoadign?: boolean;
+  };
+  messages?: {
+    data: Record<number, Message[]>;
+  };
+  selectedChat?: {
+    data: number;
+  };
+
+  searchUsers?: {
+    data: UserResponse[];
+  };
+};
 
 type StoreEvents = {
   updated: (state: State) => void;
@@ -31,7 +53,6 @@ export class Store extends EventBus<StoreEvents> {
 
   public set(path: string, value: unknown) {
     set(this.state, path, value);
-
     this.emit("updated", this.state);
   }
 

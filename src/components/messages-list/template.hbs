@@ -1,0 +1,33 @@
+<main class="chat">
+  <div class="chat__top">
+    <div class="chat__contact">
+      {{{buttonCreateChat}}}
+      {{{buttonSearchUser}}}
+
+      {{#if selectedChat}}
+      {{else}}
+        <div>Select a chat</div>
+      {{/if}}
+    </div>
+    <div class="chat__options-container">
+
+      {{{buttonChatSettings}}}
+      {{{dropdownChatSettings}}}
+    </div>
+  </div>
+  {{! top / contact info }}
+  {{#if selectedChat}}
+  <div class="chat__messages">
+      {{#each messagesList}}
+        {{{this}}}
+      {{/each}}
+
+  </div>
+    {{{form}}}
+  {{/if}}
+  </div>
+  {{{createModal}}}
+  {{{addUserModal}}}
+  {{{delUserModal}}}
+  {{{searchUserModal}}}
+</main>

@@ -1,4 +1,6 @@
-function cloneDeep<T extends object = object>(obj: T) {
+function cloneDeep<T extends Record<string, unknown> = Record<string, unknown>>(
+  obj: T
+) {
   return (function _cloneDeep(
     item: T
   ): T | Date | Set<unknown> | Map<unknown, unknown> | object | T[] {
@@ -17,7 +19,7 @@ function cloneDeep<T extends object = object>(obj: T) {
     // Handle:
     // * Date
     if (item instanceof Date) {
-      return new Date(item.valueOf());
+      return new Date(item.valueOf() as any);
     }
 
     // Handle:
@@ -58,12 +60,14 @@ function cloneDeep<T extends object = object>(obj: T) {
       // Handle:
       // * Object.symbol
       Object.getOwnPropertySymbols(item).forEach(
-        (s) => (copy[s] = _cloneDeep(item[s]))
+        (s) => (copy[s] = _cloneDeep(item[s as any] as any))
       );
 
       // Handle:
       // * Object.name (other)
-      Object.keys(item).forEach((k) => (copy[k] = _cloneDeep(item[k])));
+      Object.keys(item).forEach(
+        (k) => (copy[k] = _cloneDeep(item[k as any] as any))
+      );
 
       return copy;
     }
