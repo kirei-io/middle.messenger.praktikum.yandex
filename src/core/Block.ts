@@ -1,3 +1,4 @@
+import cloneDeep from "../utils/clooneDeep";
 import { EventBus } from "./EventBus";
 
 enum BLOCK_EVENTS {
@@ -17,17 +18,21 @@ type BlockEventsType = {
   [BLOCK_EVENTS.RENDER]: BlockEventHandler;
 };
 
-type Props = Record<string, unknown>;
+export type Props = {
+  events?: Record<string, (e: Event) => void>;
+};
 type Child = Record<string, Block | Block[]>;
 
-export class Block {
+export abstract class Block<
+  P extends Record<string, unknown> = Record<string, unknown>
+> {
   private element: HTMLElement | null = null;
   protected id = window.crypto.randomUUID();
-  public readonly props: Props;
+  public readonly props: P;
   public readonly children: Child;
   private eventBus: () => EventBus<BlockEventsType>;
 
-  constructor(propsWithChildren: Props | Child = {}) {
+  constructor(propsWithChildren: P = {} as P) {
     const eventBus = new EventBus<BlockEventsType>();
 
     const { props, children } = this.getChildrenAndProps(propsWithChildren);
@@ -46,7 +51,7 @@ export class Block {
     return this.element;
   }
 
-  public setProps = (nextProps: Props) => {
+  public setProps = (nextProps: Partial<P>) => {
     if (!nextProps) {
       return;
     }
@@ -54,8 +59,8 @@ export class Block {
     Object.assign(this.props, nextProps);
   };
 
-  private getChildrenAndProps(propsWithChildren: Props | Child) {
-    const props: Props = {};
+  private getChildrenAndProps(propsWithChildren: P) {
+    const props: Record<string, unknown> = {};
     const children: Child = {};
 
     Object.entries(propsWithChildren).forEach(([key, value]) => {
@@ -67,7 +72,7 @@ export class Block {
         props[key] = value;
       }
     });
-    return { props, children };
+    return { props: props as P, children };
   }
 
   /**
@@ -133,15 +138,14 @@ export class Block {
   }
 
   private forEachEvents(
-    callback: (eventName: string, event: () => void) => void
+    callback: (eventName: string, event: (e: Event) => void) => void
   ) {
-    const { events = {} } = this.props as {
-      events: Record<string, () => void>;
-    };
-
-    Object.keys(events).forEach((eventName) => {
-      callback(eventName, events[eventName]);
-    });
+    if ("events" in this.props) {
+      const events = this.props.events as Record<string, (e: Event) => void>;
+      Object.keys(events).forEach((eventName) => {
+        callback(eventName, events[eventName]);
+      });
+    }
   }
 
   /**
@@ -165,13 +169,17 @@ export class Block {
   /**
    * Creating a proxy wrapper for a prop object
    */
-  private makePropsProxy(props: Props) {
+  private makePropsProxy<P extends Props>(props: P): P {
     return new Proxy(props, {
+      get(target, prop) {
+        const value = target[prop as keyof P];
+        return typeof value === "function" ? value.bind(target) : value;
+      },
       set: (target, key, value) => {
-        const oldValue = target[String(key)];
-        target[String(key)] = value;
+        const oldTarget = cloneDeep(target);
+        target[key as keyof P] = value;
 
-        this.eventBus().emit(BLOCK_EVENTS.CD_UPDATE, oldValue, value);
+        this.eventBus().emit(BLOCK_EVENTS.CD_UPDATE, oldTarget, target);
 
         return true;
       },
@@ -210,15 +218,13 @@ export class Block {
     this.addEvents();
   }
 
-  protected render() {
+  protected render(): DocumentFragment {
     return new DocumentFragment();
   }
-
   private componentDidUpdate: BlockEventCDUpdateHander = (
     oldProps,
     newProps
   ) => {
-    // console.log("did update");
     const response = this.didUpdate(oldProps, newProps);
     if (response) {
       this.eventBus().emit(BLOCK_EVENTS.RENDER);
@@ -226,11 +232,9 @@ export class Block {
   };
 
   private componentDidMount() {
-    // console.log("did mount");
     this.didMount();
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected didMount(oldProps?: Props) {
     return;
   }
@@ -256,7 +260,7 @@ export class Block {
    * Set style property "display" as block
    */
   public show() {
-    this.htmlElement.style.display = "block";
+    this.htmlElement.style.display = "";
   }
 
   /**

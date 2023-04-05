@@ -1,24 +1,33 @@
 import { Block } from "../../core/Block";
-import { formSubmitHandler } from "../../services/FormSubmitHandler";
 import { ButtonDefault } from "../button-default";
 import { InputBlock } from "../input-block";
 import template from "./template.hbs";
+import { MessagesController } from "../../controllers/MessagesController";
+import { withStore } from "../../hocs/WithStore";
+import { isValid } from "../../core/validator";
 
-export class FormSendMessage extends Block {
+type FormSendMessageProps = {
+  events?: {
+    submit: (e: Event) => void;
+  };
+  chatId: number | undefined;
+};
+export class FormSendMessageComponent extends Block<FormSendMessageProps> {
   protected init(): void {
     this.setProps({
       events: {
         submit: (e: Event) => {
-          const value = {
-            [this.input.props.name as string]: this.getValues(),
-          };
-          formSubmitHandler(e, value, [this.input]);
+          e.preventDefault();
+          const values = this.getValues();
+          if (!isValid(this.input.props.name as string, values)) {
+            this.input.validator.show();
+            return;
+          } else if (this.props.chatId) {
+            MessagesController.sendMessage(this.props.chatId, this.getValues());
+            this.input.value = "";
+          }
         },
       },
-    });
-    this.children.buttonAddMessage = new ButtonDefault({
-      label: "Add",
-      className: "button-outline",
     });
     this.children.inputMessage = new InputBlock({
       name: "message",
@@ -46,3 +55,9 @@ export class FormSendMessage extends Block {
     return this.input.value;
   }
 }
+
+export const FormSendMessage = withStore((state) => {
+  return {
+    chatId: state.selectedChat?.data,
+  };
+})(FormSendMessageComponent);

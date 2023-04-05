@@ -2,15 +2,12 @@ import { Block } from "../../core/Block";
 import { ButtonDefault } from "../button-default";
 import template from "./template.hbs";
 
-export class DropdownChatSettings extends Block {
-  protected init(): void {
-    this.children.buttonAddUser = new ButtonDefault({
-      label: "Add User",
-    });
-    this.children.buttonDeleteUser = new ButtonDefault({
-      label: "Delete User",
-    });
-  }
+type DropDownProps = {
+  addUser: ButtonDefault;
+  delUser: ButtonDefault;
+  display: boolean;
+};
+export class DropdownChatSettings extends Block<DropDownProps> {
   protected render(): DocumentFragment {
     return this.compile(template, this.props);
   }

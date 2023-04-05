@@ -51,7 +51,7 @@ export const isValid = (name: string, str: string): boolean => {
   if (name in regEx) {
     return regEx[name as keyof typeof regEx].test(str);
   } else {
-    throw new Error(name + " is not found");
+    return true;
   }
 };
 
@@ -59,6 +59,6 @@ export const getValidatorMessage = (name: string): string => {
   if (name in regEx) {
     return message[name as keyof typeof regEx];
   } else {
-    throw new Error(name + " is not found");
+    return "";
   }
 };

@@ -1,19 +1,17 @@
-import { Block } from "../../core/Block";
-import { formSubmitHandler } from "../../services/FormSubmitHandler";
+import { ROUTE_PATH } from "../..";
+import {
+  ChangePasswordRequest,
+  UserUpdateRequest,
+} from "../../api/UserAPI.interface";
+import { UserController } from "../../controllers/UserController";
+import { Router } from "../../core/Router";
 import { ButtonDefault } from "../button-default";
-import { InputBlock } from "../input-block";
+import { FormDefault } from "../form-default";
 import { InputProfile } from "../input-profile";
-import template from "./template.hbs";
 
-export class FormProfile extends Block {
-  protected init(): void {
-    this.setProps({
-      events: {
-        submit: (e: Event) => {
-          formSubmitHandler(e, this.getValues(), this.inputs);
-        },
-      },
-    });
+export class FormProfile extends FormDefault {
+  protected init() {
+    super.init();
     const inputsMeta = this.props.inputsMeta as Record<string, string>[];
     this.children.inputs = inputsMeta.map((props) => new InputProfile(props));
     this.children.buttonSubmit = new ButtonDefault({
@@ -21,21 +19,25 @@ export class FormProfile extends Block {
       className: "button-outline profile-edit__button",
     });
   }
-  protected render(): DocumentFragment {
-    return this.compile(template, this.props);
-  }
 
-  public getValues() {
-    const inputs = this.children.inputs as InputBlock[];
-    const values: Record<string, string> = {};
-    inputs.forEach((input) => {
-      values[input.props.name as string] = input.value;
-    });
-
-    return values;
-  }
-
-  private get inputs() {
-    return this.children.inputs as InputBlock[];
+  protected async submitForm(
+    values: ChangePasswordRequest | UserUpdateRequest
+  ) {
+    if ("oldPassword" in values) {
+      await UserController.changePassword({
+        newPassword: values.newPassword,
+        oldPassword: values.oldPassword,
+      });
+    } else {
+      await UserController.changeProfile({
+        email: values.email,
+        login: values.login,
+        phone: values.phone,
+        display_name: values.display_name,
+        first_name: values.first_name,
+        second_name: values.second_name,
+      });
+    }
+    Router.instance().go(ROUTE_PATH.PROFILE);
   }
 }

@@ -6,70 +6,81 @@ enum METHOD {
 }
 
 type HTTPTransportOptions = {
-  data?: Record<string, unknown>;
+  data?: unknown;
   timeout?: number;
 };
 
-type HTTPTransportHandler = (
-  url: string,
+type HTTPTransportHandler = <T = unknown>(
+  path: string,
   options?: HTTPTransportOptions
-) => Promise<unknown>;
+) => Promise<T>;
+
+export type HTTPTransportConfig = {
+  endpoint: string;
+};
 
 export class HTTPTransport {
-  public get: HTTPTransportHandler = (url, options) =>
-    this.request(
-      url,
-      { ...options, method: METHOD.GET },
-      options?.timeout ?? 1000
-    );
+  private endpoint: string;
+  private baseURL = "https://ya-praktikum.tech/api/v2";
+  constructor(config: HTTPTransportConfig) {
+    this.endpoint = config.endpoint;
+  }
+  public get: HTTPTransportHandler = (path, options) =>
+    this.request(this.url(path), { ...options, method: METHOD.GET });
 
-  public post: HTTPTransportHandler = (url, options) =>
-    this.request(
-      url,
-      { ...options, method: METHOD.POST },
-      options?.timeout ?? 1000
-    );
+  public post: HTTPTransportHandler = (path, options) =>
+    this.request(this.url(path), { ...options, method: METHOD.POST });
 
-  public put: HTTPTransportHandler = (url, options) =>
-    this.request(
-      url,
-      { ...options, method: METHOD.PUT },
-      options?.timeout ?? 1000
-    );
+  public put: HTTPTransportHandler = (path, options) =>
+    this.request(this.url(path), { ...options, method: METHOD.PUT });
 
-  public delete: HTTPTransportHandler = (url, options) =>
-    this.request(
-      url,
-      { ...options, method: METHOD.DELETE },
-      options?.timeout ?? 1000
-    );
+  public delete: HTTPTransportHandler = (path, options) =>
+    this.request(this.url(path), { ...options, method: METHOD.DELETE });
 
-  private request(
+  private url(path?: string) {
+    return `${this.baseURL}${this.endpoint}${path ?? ""}`;
+  }
+
+  private request<T>(
     url: string,
-    options: HTTPTransportOptions & { method: METHOD },
-    timeout: number
-  ): Promise<unknown> {
-    const { method, data } = options;
+    options: HTTPTransportOptions & { method: METHOD }
+  ): Promise<T> {
+    const { method, data, timeout } = options;
 
     return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
 
       xhr.open(method, url);
+      xhr.timeout = timeout ?? 1000;
 
-      xhr.onload = () => {
-        resolve(xhr);
-        console.log(xhr);
+      xhr.onreadystatechange = () => {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+          if (xhr.status < 400) {
+            resolve(xhr.response);
+          } else {
+            reject(xhr.response);
+          }
+        }
       };
 
-      xhr.onabort = reject;
-      xhr.onerror = reject;
-      xhr.timeout = timeout;
-      xhr.ontimeout = reject;
+      xhr.onabort = () => reject({ reason: "abort" });
+      xhr.onerror = () => reject({ reason: "network error" });
+      xhr.ontimeout = () => reject({ reason: "timeout" });
+
+      // xhr.setRequestHeader("Content-Type", "application/json");
+
+      xhr.withCredentials = true;
+      xhr.responseType = "json";
 
       if (method === METHOD.GET || !data) {
         xhr.send();
       } else {
-        xhr.send(JSON.stringify(data));
+        if (data instanceof FormData) {
+          xhr.send(data);
+        } else {
+          xhr.setRequestHeader("Content-Type", "application/json");
+          xhr.send(JSON.stringify(data));
+        }
       }
     });
   }
