@@ -1,8 +1,7 @@
-import { Block } from "../../core/Block";
-import { formSubmitHandler } from "../../services/FormSubmitHandler";
+import { AuthController } from "../../controllers/AuthController";
 import { ButtonDefault } from "../button-default";
+import { FormDefault } from "../form-default";
 import { InputBlock } from "../input-block";
-import template from "./template.hbs";
 
 const loginInputs = [
   {
@@ -19,40 +18,24 @@ const loginInputs = [
   },
 ];
 
-export class FormLogin extends Block {
-  protected init(): void {
-    this.setProps({
-      events: {
-        submit: (e: Event) => {
-          formSubmitHandler(e, this.getValues(), this.inputs);
-        },
-      },
+export class FormLogin extends FormDefault {
+  protected async submitForm(values: Record<string, string>) {
+    await AuthController.signin({
+      login: values.login,
+      password: values.password,
     });
+  }
+  protected init(): void {
+    super.init();
+
     this.children.inputs = loginInputs.map(
       (props) => new InputBlock({ ...props })
     );
+
     this.children.buttonSubmit = new ButtonDefault({
       type: "submit",
       className: "form__button",
       label: "Sign in",
     });
-  }
-
-  protected render(): DocumentFragment {
-    return this.compile(template, this.props);
-  }
-
-  public getValues() {
-    const inputs = this.children.inputs as InputBlock[];
-    const values: Record<string, string> = {};
-    inputs.forEach((input) => {
-      values[input.props.name as string] = input.value;
-    });
-
-    return values;
-  }
-
-  private get inputs() {
-    return this.children.inputs as InputBlock[];
   }
 }

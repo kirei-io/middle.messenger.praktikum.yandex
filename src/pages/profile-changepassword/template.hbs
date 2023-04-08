@@ -1,22 +1,13 @@
 <main class="wrapper wrapper-profile">
   <div class="profile-left">
     <div class="card">
-      <a
-        href="/"
-        class="link">back</a>
+      {{{back}}}
     </div>
-    {{!-- back --}}
+    {{! back }}
     <div class="card card-avatar">
-      <div class="profile-avatar"></div>
+      {{{avatar}}}
     </div>
-    {{!-- avatar --}}
-
+    {{! avatar }}
   </div>
-  {{{form}}}
-  {{!-- <form class="card profile">
-    {{{inputOldPassword}}}
-    {{{inputNewPassword}}}
-    {{{inputNewPasswordRepeat}}}
-    {{{buttonSubmit}}}
-  </form> --}}
+  <div class="card profile">{{{form}}}</div>
 </main>

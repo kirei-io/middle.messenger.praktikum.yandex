@@ -24,6 +24,11 @@
     height: 7rem
     border-radius: 50%
     background-color: getColor(surface2)
+    &__image
+      width: 7rem
+      height: 7rem
+      border-radius: 50%
+      object-fit: cover
   &__navigation
     @include flexCol(1rem)
 
@@ -31,6 +36,11 @@
   @include flexRow()
   align-items: center
   justify-content: center
+
+.form-avatar
+  @include flexCol(1rem)
+  align-items: center
+
 
 .profile-edit
   &__row
@@ -43,8 +53,6 @@
 .change-avatar
   @include flexCol(1rem)
   text-transform: lowercase
-  &__input
-    display: none
   &__label
     color: getColor(rosewater)
   &__button

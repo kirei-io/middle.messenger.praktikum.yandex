@@ -1,0 +1,19 @@
+<div class="wrapper-modal">
+  <div class="modal card">
+    {{#if searchResult}}
+      {{#each searchResult}}
+        <div class="modal-search">
+          <span>{{{this.id}}}</span>
+          -
+          <span>{{{this.login}}}</span>
+        </div>
+      {{/each}}
+      {{{buttonReset}}}
+    {{else}}
+      {{title}}
+      {{{form}}}
+    {{/if}}
+    {{{buttonCancel}}}
+  </div>
+  <div class="backdrop"></div>
+</div>

@@ -29,6 +29,7 @@ $border: 2px solid getColor(surface0)
   align-items: center
   justify-content: space-between
   border-bottom: $border
+  width: 100% !important
   height: 5rem
   padding: .5rem 1rem
   &_selected
@@ -40,17 +41,21 @@ $border: 2px solid getColor(surface0)
     border-radius: 50%
     border: 2px solid
     box-shadow: 2px 2px 0 0
+    &__image
+      width: 3rem
+      height: 3rem
+      border-radius: 50%
+      object-fit: cover
   &__left
     @include flexRow(1rem)
-    align-items: center
     height: 100%
   &__name
+    text-align: left
     font-weight: 600
   &__last-message
     color: getColor(overlay1)
   &__col
     @include flexCol(.5rem)
-    align-items: center
     justify-content: space-evenly
     height: 100%
   &__date
@@ -70,6 +75,7 @@ $border: 2px solid getColor(surface0)
   @include flexCol()
   justify-content: space-between
   width: 70%
+  max-height: 100vh
   &__top
     @include flexRow()
     background-color: getColor(crust)
@@ -88,7 +94,13 @@ $border: 2px solid getColor(surface0)
     align-items: center
   &__messages
     @include flexCol(1.5rem)
-    padding: 0.5rem 2rem
+    padding: 2rem 2rem
+    overflow-y: scroll
+    overscroll-behavior-y: contain
+    scroll-snap-type: y proximity
+    max-height: 100%
+    &:last-child
+      scroll-snap-align: end
   &__bottom
     @include flexRow(1rem)
     border-top: $border

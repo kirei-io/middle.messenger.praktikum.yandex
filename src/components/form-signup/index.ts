@@ -1,6 +1,9 @@
+import { ROUTE_PATH } from "../..";
+import { AuthController } from "../../controllers/AuthController";
 import { Block } from "../../core/Block";
-import { formSubmitHandler } from "../../services/FormSubmitHandler";
+import { Router } from "../../core/Router";
 import { ButtonDefault } from "../button-default";
+import { FormDefault } from "../form-default";
 import { InputBlock } from "../input-block";
 import template from "./template.hbs";
 
@@ -51,16 +54,9 @@ const signupRightInputs = [
     className: "form__input",
   },
 ];
-
-export class FormSignup extends Block {
-  protected init(): void {
-    this.setProps({
-      events: {
-        submit: (e: Event) => {
-          formSubmitHandler(e, this.getValues(), this.inputs);
-        },
-      },
-    });
+export class FormSignup extends FormDefault {
+  protected init() {
+    super.init();
     this.children.elementsLeft = signupLeftInputs.map(
       (props) => new InputBlock({ ...props })
     );
@@ -72,13 +68,30 @@ export class FormSignup extends Block {
         label: "Create account",
       }),
     ];
-    this.children.buttonSubmit = new ButtonDefault({});
   }
 
-  protected render(): DocumentFragment {
+  protected submitForm(values: Record<string, string>): void {
+    AuthController.signup({
+      email: values.email,
+      login: values.login,
+      password: values.password,
+      first_name: values.first_name,
+      second_name: values.second_name,
+      phone: values.phone,
+    });
+    Router.instance().go(ROUTE_PATH.PROFILE);
+  }
+
+  /**
+   * @Override
+   */
+  protected render() {
     return this.compile(template, this.props);
   }
 
+  /**
+   * @Override
+   */
   public getValues() {
     const inputs = this.inputs;
     const values: Record<string, string> = {};
@@ -89,7 +102,10 @@ export class FormSignup extends Block {
     return values;
   }
 
-  private get inputs() {
+  /**
+   * @Override
+   */
+  protected get inputs() {
     const elementsLeft = this.children.elementsLeft as InputBlock[];
     const elementsRight = (this.children.elementsRight as Block[]).filter(
       (component) => component instanceof InputBlock

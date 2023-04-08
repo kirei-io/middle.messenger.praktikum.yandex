@@ -10,6 +10,11 @@ export class InputBlock extends Block {
       .value;
   }
 
+  set value(value: string) {
+    ((this.children.inputForm as Block).htmlElement as HTMLInputElement).value =
+      value;
+  }
+
   protected init(): void {
     this.children.inputForm = new InputForm({
       name: this.props.name,
@@ -31,7 +36,7 @@ export class InputBlock extends Block {
     this.children.validatorMessage = new ValidatorMessage({
       message: getValidatorMessage(this.props.name as string),
     });
-    (this.children.validatorMessage as Block).hide();
+    this.validator.hide();
   }
 
   protected render(): DocumentFragment {
