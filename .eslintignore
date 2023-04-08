@@ -2,3 +2,6 @@
 **/*.min.js
 /node_modules
 server.js
+webpack.common.js
+webpack.dev.js
+webpack.prod.js
