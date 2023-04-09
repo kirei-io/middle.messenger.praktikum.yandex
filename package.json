@@ -21,7 +21,7 @@
     "*.{ts}": [
       "npm run check-types",
       "npm run lint:eslint",
-      "npm run test"
+      "npm test"
     ],
     "*.{sass, css}": [
       "npm run lint:stylelint"
