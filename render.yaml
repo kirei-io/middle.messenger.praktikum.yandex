@@ -5,5 +5,4 @@ services:
     repo: https://github.com/kirei-io/middle.messenger.praktikum.yandex.git
     branch: sprint_4
     healthCheckPath: /
-    buildCommand: docker build -t chat-app -f Dockerfile .
-    startCommand: docker run -p 3000:3000 -it chat-app
+    dockerCommand: docker build -t chat-app -f Dockerfile . && docker run -p 3000:3000 -it chat-app
