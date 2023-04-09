@@ -13,6 +13,9 @@
     "noUnusedParameters": true,
     "skipLibCheck": true
   },
-  "include": ["src/**/*"],
+  "ts-node": {
+    "files": true
+  },
+  "include": ["src/**/*", "hbs.d.ts"],
   "exclude": ["node_modules"]
 }

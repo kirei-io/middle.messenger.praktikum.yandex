@@ -68,7 +68,7 @@ export class ProfileEdit extends Block<ProfileEditPageProps> {
     });
   }
 
-  protected didUpdate(_: unknown, newProps: ProfileEditPageProps): boolean {
+  didUpdate(_: unknown, newProps: ProfileEditPageProps): boolean {
     this.avatar(newProps);
     this.setProps({ ...newProps });
     return true;

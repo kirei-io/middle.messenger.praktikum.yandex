@@ -45,10 +45,7 @@ export class ProfileChangePassword extends Block<ProfileChangePasswordPageProps>
       path: ROUTE_PATH.PROFILE,
     });
   }
-  protected didUpdate(
-    _: unknown,
-    newProps: ProfileChangePasswordPageProps
-  ): boolean {
+  didUpdate(_: unknown, newProps: ProfileChangePasswordPageProps): boolean {
     this.setProps({ ...newProps });
     return true;
   }
