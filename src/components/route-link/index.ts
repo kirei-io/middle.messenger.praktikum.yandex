@@ -15,7 +15,6 @@ export class RouteLink extends Block<RouteLinkProps> {
         click: (e) => {
           e.preventDefault();
           Router.instance().go(this.props.path as string);
-          console.log("ROUTE-LINK: go to " + this.props.path);
         },
       },
     });
