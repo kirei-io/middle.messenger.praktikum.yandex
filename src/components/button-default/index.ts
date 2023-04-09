@@ -1,6 +1,6 @@
 import { Block } from "../../core/Block";
 
-import template from `./template.hbs`;
+import {template} from `./template.hbs`;
 
 type ButtonDefaultProps = {
   label: string;
