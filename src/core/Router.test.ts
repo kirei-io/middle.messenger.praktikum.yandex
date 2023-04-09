@@ -1,6 +1,7 @@
-import Router, { BlockConstructable } from "./Router";
+import { Router } from "./Router";
 import { expect } from "chai";
 import sinon from "sinon";
+import { Block } from "./Block";
 
 describe("Router", () => {
   global.window.history.back = () => {
@@ -14,30 +15,62 @@ describe("Router", () => {
     }
   };
 
-  const getContentFake = sinon.fake.returns(document.createElement("div"));
+  const getContentFake = sinon.stub();
 
   const BlockMock = class {
-    getContent = getContentFake;
-  } as unknown as BlockConstructable;
+    get htmlElement() {
+      getContentFake();
+      return document.createElement("div");
+    }
+    dispatchComponentDidMount() {
+      return;
+    }
+  } as unknown as new (props?: any) => Block;
+
+  Router.create("#app");
 
   it("use() should return Router instance", () => {
-    const result = Router.use("/", BlockMock);
+    const result = Router.instance().use("/", BlockMock);
 
-    expect(result).to.eq(Router);
+    expect(result).to.eq(Router.instance());
   });
 
-  describe(".back()", () => {
-    it("should render a page on history back action", () => {
-      Router.use("/", BlockMock).start();
+  beforeEach(() => {
+    getContentFake.reset();
+  });
 
-      Router.back();
+  it("should render a page on history back action", () => {
+    Router.instance().use("/", BlockMock).start();
 
-      expect(getContentFake.callCount).to.eq(1);
-    });
+    Router.instance().back();
+    /**
+     * `getContentFake.callCount` tow times becouse first time - on `.start()`
+     * and second time - on `.back()`
+     */
+    expect(getContentFake.callCount).to.eq(2);
+  });
+
+  beforeEach(() => {
+    getContentFake.reset();
+  });
+
+  it("should render a page on history forward action", () => {
+    Router.instance().use("/", BlockMock).start();
+
+    Router.instance().forward();
+    /**
+     * `getContentFake.callCount` tow times becouse first time - on `.start()`
+     * and second time - on `.forward()`
+     */
+    expect(getContentFake.callCount).to.eq(2);
+  });
+
+  beforeEach(() => {
+    getContentFake.reset();
   });
 
   it("should render a page on start", () => {
-    Router.use("/", BlockMock).start();
+    Router.instance().use("/", BlockMock).start();
 
     expect(getContentFake.callCount).to.eq(1);
   });

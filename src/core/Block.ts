@@ -1,5 +1,6 @@
 import cloneDeep from "../utils/clooneDeep";
 import { EventBus } from "./EventBus";
+import { TemplateDelegate } from "handlebars/runtime";
 
 enum BLOCK_EVENTS {
   INIT = "init",
@@ -89,7 +90,7 @@ export abstract class Block<
    * Convert `HandlebarsTemplateDelegate` to `DocumentFragment`
    */
   protected compile(
-    template: HandlebarsTemplateDelegate,
+    template: TemplateDelegate,
     context: Record<string, unknown>
   ) {
     const contextAndStubs = { ...context };
@@ -234,8 +235,9 @@ export abstract class Block<
   private componentDidMount() {
     this.didMount();
   }
-
-  protected didMount(oldProps?: Props) {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  //@ts-ignore
+  public didMount(oldProps?: Props) {
     return;
   }
 
@@ -251,8 +253,9 @@ export abstract class Block<
     });
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected didUpdate(oldProps: unknown, newProps: unknown): boolean {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  //@ts-ignore
+  public didUpdate(oldProps: unknown, newProps: unknown): boolean {
     return true;
   }
 

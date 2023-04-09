@@ -1,4 +1,5 @@
 import { expect } from "chai";
+
 function hello(message: string) {
   return "hello " + message;
 }

@@ -9,11 +9,13 @@ const { window } = new JSDOM('<div id="app"></div>', {
 global.window = window;
 global.document = window.document;
 global.DocumentFragment = window.DocumentFragment;
+global.window.crypto.randomUUID = () => 1;
 
 require.extensions[".hbs"] = function (module, filename) {
-  const contents = fs.readFileSync(filename, "utf-8");
-
-  module.exports = Handlebars.compile(contents);
+  let compiled;
+  const raw = fs.readFileSync(filename, "utf8");
+  compiled = Handlebars.compile(raw);
+  module.exports = compiled;
 };
 require.extensions[".sass"] = function () {
   module.exports = () => ({});

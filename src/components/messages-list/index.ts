@@ -48,7 +48,7 @@ class MessagesListComponent extends Block<MessagesListProps> {
     });
   }
 
-  protected didUpdate(_: unknown, newProps: MessagesListProps): boolean {
+  didUpdate(_: unknown, newProps: MessagesListProps): boolean {
     this.children.messagesList = this.createMessages(newProps);
     return true;
   }

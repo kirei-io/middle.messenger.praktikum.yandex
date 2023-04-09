@@ -19,6 +19,14 @@
   - form validation
 - **sprint_3** connect to API
 - **sprint_4** add tests and doker
+  - Add **Webpack**
+  - Tests:
+    1. Component `ButtonDefault class`,
+    2. Page `ChatPage class`
+    3. Util `trim fuction`
+    4. Base `Block class`,
+    5. `HTTPTransport class`
+    6. `Router class`
 
 ## 💿 Install
 

@@ -10,7 +10,7 @@ type ModalProps = {
 };
 
 class ModailComponent extends Block<ModalProps> {
-  protected didMount(): void {
+  didMount(): void {
     this.hide();
   }
   protected render(): DocumentFragment {

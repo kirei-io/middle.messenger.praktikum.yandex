@@ -49,7 +49,7 @@ export class ContactsListComponent extends Block<ContactsListProps> {
     });
   }
 
-  protected didUpdate(_: unknown, newProps: ContactsListProps): boolean {
+  didUpdate(_: unknown, newProps: ContactsListProps): boolean {
     this.children.contactsList = this.createContacts(newProps) ?? [];
     return true;
   }
