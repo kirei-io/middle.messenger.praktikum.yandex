@@ -4,6 +4,7 @@ import template from "./template.hbs";
 
 type ButtonDefaultProps = {
   label: string;
+
   type?: string;
   className?: string;
   events?: {
