@@ -1,8 +1,0 @@
-services:
-  - type: web
-    name: kirei-chat-app
-    env: docker
-    repo: https://github.com/kirei-io/middle.messenger.praktikum.yandex.git
-    branch: sprint_4
-    healthCheckPath: /
-    dockerCommand: docker build -t chat-app -f Dockerfile . && docker run -p 3000:3000 -it chat-app
