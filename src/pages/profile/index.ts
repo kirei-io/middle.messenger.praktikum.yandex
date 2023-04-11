@@ -44,10 +44,7 @@ export class Profile extends Block<ProfilePageProps> {
     });
   }
 
-  protected didUpdate(
-    _: ProfilePageProps,
-    newProps: ProfilePageProps
-  ): boolean {
+  didUpdate(_: ProfilePageProps, newProps: ProfilePageProps): boolean {
     this.setProps({ ...newProps });
     return true;
   }

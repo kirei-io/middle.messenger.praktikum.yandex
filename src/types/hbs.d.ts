@@ -1,5 +1,7 @@
 declare module "*.hbs" {
-  import { TemplateDelegate } from "handlebars/runtime";
-  const delegate: TemplateDelegate;
-  export default delegate;
+  import { TemplateDelegate } from "handlebars";
+
+  declare const template: TemplateDelegate;
+
+  export default template;
 }
