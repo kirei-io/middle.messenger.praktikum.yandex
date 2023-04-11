@@ -14,7 +14,9 @@
     "lint:stylelint": "stylelint \"**/*.sass\"",
     "webpack:build": "webpack --config webpack.prod.js",
     "webpack:watch": "webpack --watch --config webpack.dev.js",
-    "webpack:start": "webpack serve --open --config webpack.dev.js"
+    "webpack:start": "webpack serve --open --config webpack.dev.js",
+    "prepare": "husky install",
+    "pre-commit": "lint-staged"
   },
   "lint-staged": {
     "*.{ts}": [
@@ -25,11 +27,6 @@
     "*.{sass, css}": [
       "npm run lint:stylelint"
     ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm-run-all lint-staged"
-    }
   },
   "engines": {
     "node": ">=14"
@@ -67,7 +64,6 @@
     "css-loader": "6.7.3",
     "css-minimizer-webpack-plugin": "5.0.0",
     "eslint": "8.35.0",
-    "express-history-api-fallback": "2.2.1",
     "handlebars-loader": "1.7.3",
     "html-webpack-plugin": "5.5.0",
     "husky": "8.0.3",
@@ -93,6 +89,7 @@
     "webpack-merge": "5.8.0"
   },
   "dependencies": {
-    "express": "4.18.2"
+    "express": "4.18.2",
+    "express-history-api-fallback": "2.2.1"
   }
 }
