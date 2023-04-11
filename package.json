@@ -19,7 +19,7 @@
     "pre-commit": "lint-staged"
   },
   "lint-staged": {
-    "*.{ts}": [
+    "*.ts": [
       "npm run check-types",
       "npm run lint:eslint",
       "npm test"
