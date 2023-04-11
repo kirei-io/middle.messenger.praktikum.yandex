@@ -10,6 +10,7 @@ global.window = window;
 global.document = window.document;
 global.DocumentFragment = window.DocumentFragment;
 global.window.crypto.randomUUID = () => 1;
+global.FormData = window.FormData;
 
 require.extensions[".hbs"] = function (module, filename) {
   let compiled;
